@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Coding Streak Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            document.documentElement.classList.toggle('dark', e.matches);
+        });
+    </script>
+</head>
+<body class="dark:bg-gray-950 dark:text-gray-100">
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🔥 Daily Coding Streak</h1>
+            <p>Track your daily coding progress &mdash; one commit at a time</p>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card dark:bg-gray-900 dark:border-gray-800">
+                <div class="label">Current Streak</div>
+                <div class="value" id="streak-count" style="color: #22c55e;">0</div>
+                <div class="sub">consecutive days</div>
+            </div>
+            <div class="stat-card dark:bg-gray-900 dark:border-gray-800">
+                <div class="label">Active Days</div>
+                <div class="value" id="total-days" style="color: #3b82f6;">0</div>
+                <div class="sub">this month</div>
+            </div>
+            <div class="stat-card dark:bg-gray-900 dark:border-gray-800">
+                <div class="label">Completion Rate</div>
+                <div class="value" id="completion-rate" style="color: #eab308;">0%</div>
+                <div class="sub">this month</div>
+            </div>
+            <div class="stat-card dark:bg-gray-900 dark:border-gray-800">
+                <div class="label">Problems Solved</div>
+                <div class="value" id="total-solved" style="color: #a855f7;">0</div>
+                <div class="sub">total</div>
+            </div>
+        </div>
+
+        <!-- Streak Calendar -->
+        <section class="streak-section">
+            <h2>📅 Streak Calendar</h2>
+            <div class="streak-calendar dark:bg-gray-900 dark:border-gray-800">
+                <div class="month-label" id="month-label"></div>
+                <div class="weekday-labels">
+                    <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
+                    <span>Thu</span><span>Fri</span><span>Sat</span>
+                </div>
+                <div class="streak-grid" id="streak-grid"></div>
+                <div class="legend">
+                    <span>Less</span>
+                    <div class="legend-item"><div class="legend-swatch" style="background: var(--day-empty, #ebedf0);"></div></div>
+                    <div class="legend-item"><div class="legend-swatch" style="background: #22c55e40;"></div></div>
+                    <div class="legend-item"><div class="legend-swatch" style="background: #22c55e70;"></div></div>
+                    <div class="legend-item"><div class="legend-swatch" style="background: #22c55e;"></div></div>
+                    <span>More</span>
+                    <div class="legend-item" style="margin-left: 1rem;">
+                        <div class="legend-swatch" style="border: 2px solid var(--accent, #22c55e); background: transparent;"></div>
+                        <span>Today</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Today's Challenges -->
+        <section class="challenges-section">
+            <h2>📝 Today's Coding Challenges</h2>
+            <div id="challenges-container"></div>
+        </section>
+
+        <!-- Activity Log -->
+        <section class="activity-section">
+            <h2>⚡ Today's Activity</h2>
+            <div class="activity-list dark:bg-gray-900 dark:border-gray-800" id="activity-list"></div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            Automated daily coding portfolio &mdash; Generated on June 5, 2026
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
