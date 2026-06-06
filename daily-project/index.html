@@ -1,98 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Coding Streak Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="styles.css" />
-    <script>
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-        }
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            document.documentElement.classList.toggle('dark', e.matches);
-        });
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub Streak Saver - Retro Web Arcade 🚀</title>
+  <script
+    src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.0/dist/index.global.js"
+    integrity="sha384-nWTzRTCY/9V4Bo352ehygr1c4cnst4XN6lMR3fipakEQrhVpc0hEM5Dii3Amz0sT"
+    crossorigin="anonymous"
+  ></script>
+  <style type="text/tailwindcss">
+    @custom-variant dark (&:where(.dark, .dark *));
+    
+    .neon-glow {
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.5), 0 0 20px rgba(34, 197, 94, 0.3);
+    }
+    .neon-glow-red {
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.5), 0 0 20px rgba(239, 68, 68, 0.3);
+    }
+    .neon-glow-cyan {
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.5), 0 0 20px rgba(6, 182, 212, 0.3);
+    }
+  </style>
+  <script>
+    document.documentElement.classList.toggle(
+      'dark',
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    );
+  </script>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="dark:bg-gray-950 dark:text-gray-100">
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <h1>🔥 Daily Coding Streak</h1>
-            <p>Track your daily coding progress &mdash; one commit at a time</p>
-        </header>
+<body class="min-h-dvh bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 antialiased p-4 sm:p-6 flex flex-col justify-between">
 
-        <!-- Stats Cards -->
-        <div class="stats-grid">
-            <div class="stat-card dark:bg-gray-900 dark:border-gray-800">
-                <div class="label">Current Streak</div>
-                <div class="value" id="streak-count" style="color: #22c55e;">0</div>
-                <div class="sub">consecutive days</div>
-            </div>
-            <div class="stat-card dark:bg-gray-900 dark:border-gray-800">
-                <div class="label">Active Days</div>
-                <div class="value" id="total-days" style="color: #3b82f6;">0</div>
-                <div class="sub">this month</div>
-            </div>
-            <div class="stat-card dark:bg-gray-900 dark:border-gray-800">
-                <div class="label">Completion Rate</div>
-                <div class="value" id="completion-rate" style="color: #eab308;">0%</div>
-                <div class="sub">this month</div>
-            </div>
-            <div class="stat-card dark:bg-gray-900 dark:border-gray-800">
-                <div class="label">Problems Solved</div>
-                <div class="value" id="total-solved" style="color: #a855f7;">0</div>
-                <div class="sub">total</div>
-            </div>
+  <!-- Header -->
+  <header class="max-w-4xl w-full mx-auto mb-6 text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-semibold mb-3 border border-green-200 dark:border-green-800/50">
+      <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+      Saturday Creative Project
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white drop-shadow-sm">
+      👾 GitHub <span class="text-green-500 dark:text-green-400">Streak Saver</span>
+    </h1>
+    <p class="mt-2 text-slate-600 dark:text-slate-400 text-sm max-w-md mx-auto">
+      Help the Developer AI Agent navigate production horrors, collect commits, and keep the green streak alive!
+    </p>
+  </header>
+
+  <!-- Main Grid Layout -->
+  <main class="max-w-4xl w-full mx-auto flex-grow flex flex-col gap-6">
+    
+    <!-- Stats Banner -->
+    <div class="grid grid-cols-3 gap-3">
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3 rounded-xl text-center shadow-sm">
+        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">STREAK (DAYS)</div>
+        <div id="streak-val" class="text-2xl font-bold text-green-500 dark:text-green-400">0</div>
+      </div>
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3 rounded-xl text-center shadow-sm">
+        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">HIGH SCORE</div>
+        <div id="highscore-val" class="text-2xl font-bold text-blue-500 dark:text-blue-400">0</div>
+      </div>
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3 rounded-xl text-center shadow-sm flex flex-col justify-center items-center">
+        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">FREEZES</div>
+        <div class="flex items-center gap-1 mt-1" id="freezes-container">
+          <!-- Dynamically filled with snowflakes/shields -->
+          <span class="text-cyan-500 text-xl font-bold" id="freezes-val">0</span>
         </div>
-
-        <!-- Streak Calendar -->
-        <section class="streak-section">
-            <h2>📅 Streak Calendar</h2>
-            <div class="streak-calendar dark:bg-gray-900 dark:border-gray-800">
-                <div class="month-label" id="month-label"></div>
-                <div class="weekday-labels">
-                    <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
-                    <span>Thu</span><span>Fri</span><span>Sat</span>
-                </div>
-                <div class="streak-grid" id="streak-grid"></div>
-                <div class="legend">
-                    <span>Less</span>
-                    <div class="legend-item"><div class="legend-swatch" style="background: var(--day-empty, #ebedf0);"></div></div>
-                    <div class="legend-item"><div class="legend-swatch" style="background: #22c55e40;"></div></div>
-                    <div class="legend-item"><div class="legend-swatch" style="background: #22c55e70;"></div></div>
-                    <div class="legend-item"><div class="legend-swatch" style="background: #22c55e;"></div></div>
-                    <span>More</span>
-                    <div class="legend-item" style="margin-left: 1rem;">
-                        <div class="legend-swatch" style="border: 2px solid var(--accent, #22c55e); background: transparent;"></div>
-                        <span>Today</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Today's Challenges -->
-        <section class="challenges-section">
-            <h2>📝 Today's Coding Challenges</h2>
-            <div id="challenges-container"></div>
-        </section>
-
-        <!-- Activity Log -->
-        <section class="activity-section">
-            <h2>⚡ Today's Activity</h2>
-            <div class="activity-list dark:bg-gray-900 dark:border-gray-800" id="activity-list"></div>
-        </section>
-
-        <!-- Footer -->
-        <footer>
-            Automated daily coding portfolio &mdash; Generated on June 5, 2026
-        </footer>
+      </div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- Game Cabinet Viewport -->
+    <div class="relative bg-slate-900 dark:bg-black p-2 sm:p-4 rounded-2xl border-4 border-slate-700 dark:border-slate-800 shadow-2xl overflow-hidden">
+      <!-- Screen bezel reflection -->
+      <div class="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none z-10"></div>
+      
+      <!-- HTML5 Canvas -->
+      <canvas id="gameCanvas" width="850" height="400" class="w-full bg-slate-950 rounded-lg block cursor-pointer select-none"></canvas>
+      
+      <!-- Start Game Overlay -->
+      <div id="start-overlay" class="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center p-6 text-center select-none z-20 transition-opacity duration-300">
+        <div class="text-5xl mb-4">🚀</div>
+        <h2 class="text-2xl sm:text-3xl font-black text-white tracking-wider uppercase">Streak Saver Arcade</h2>
+        <p class="text-slate-400 max-w-sm mt-2 text-xs sm:text-sm">
+          Press <kbd class="px-2 py-1 bg-slate-800 text-slate-100 rounded text-xs border border-slate-700">SPACE</kbd> or Click / Tap the screen to flap, climb, and dodge bugs!
+        </p>
+        <button id="start-btn" class="mt-6 px-6 py-3 bg-green-500 hover:bg-green-400 text-slate-950 font-bold tracking-wider rounded-lg neon-glow transform transition hover:scale-105 active:scale-95 cursor-pointer uppercase text-sm">
+          Start Coding Streak
+        </button>
+      </div>
+
+      <!-- Game Over Overlay -->
+      <div id="gameover-overlay" class="absolute inset-0 bg-red-950/90 flex flex-col items-center justify-center p-6 text-center select-none z-20 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="text-5xl mb-4">💔</div>
+        <h2 class="text-3xl font-black text-red-500 tracking-wider uppercase animate-bounce">Streak Broken!</h2>
+        <p id="gameover-quote" class="text-slate-300 max-w-md mt-2 italic text-xs sm:text-sm">
+          "A production bug slipped into master. Clean up on aisle production."
+        </p>
+        <div class="mt-4 flex flex-col items-center gap-2">
+          <div class="text-slate-400 text-xs uppercase tracking-widest font-semibold">Final Score</div>
+          <div id="final-score" class="text-4xl font-black text-white">0 Days</div>
+        </div>
+        <div class="mt-6 flex flex-wrap justify-center gap-3">
+          <button id="restart-btn" class="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg neon-glow-red cursor-pointer uppercase text-xs">
+            Try Again 🔄
+          </button>
+          <button id="share-btn" class="px-5 py-2.5 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-lg cursor-pointer uppercase text-xs">
+            Share Score 🐦
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- On-screen Clickable Game Controls for mobile/mouse play -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl shadow-sm">
+      <button id="ctrl-flap" class="p-4 bg-green-500 hover:bg-green-400 text-slate-950 font-bold rounded-lg shadow active:bg-green-600 flex flex-col items-center justify-center cursor-pointer select-none">
+        <span class="text-2xl">⬆️</span>
+        <span class="text-xs uppercase tracking-wide mt-1">Flap / Boost</span>
+        <span class="text-[10px] opacity-70">(Space / Click)</span>
+      </button>
+      <button id="ctrl-freeze" class="p-4 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-lg shadow active:bg-cyan-600 flex flex-col items-center justify-center cursor-pointer select-none">
+        <span class="text-2xl">❄️</span>
+        <span class="text-xs uppercase tracking-wide mt-1">Manual Shield</span>
+        <span class="text-[10px] opacity-70">(Shift / F)</span>
+      </button>
+      <button id="ctrl-sound" class="p-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 font-bold rounded-lg shadow flex flex-col items-center justify-center cursor-pointer select-none">
+        <span id="sound-icon" class="text-2xl">🔊</span>
+        <span class="text-xs uppercase tracking-wide mt-1">Sound FX</span>
+        <span id="sound-status" class="text-[10px] text-green-500">Enabled</span>
+      </button>
+      <button id="ctrl-restart" class="p-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 font-bold rounded-lg shadow flex flex-col items-center justify-center cursor-pointer select-none">
+        <span class="text-2xl">🔄</span>
+        <span class="text-xs uppercase tracking-wide mt-1">Reset Game</span>
+        <span class="text-[10px] opacity-70">(R Key)</span>
+      </button>
+    </div>
+
+    <!-- Instructions / Guide Card -->
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-xl shadow-sm">
+      <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+        <span>📖</span> How to Play & Game Manual
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 text-xs text-slate-600 dark:text-slate-400">
+        <ul class="space-y-2">
+          <li class="flex items-start gap-2">
+            <span class="text-green-500 font-bold">🟩</span>
+            <span><strong>Collect Green Commit Blocks</strong> to keep your streak going. Each green block adds +1 day to your streak!</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-cyan-500 font-bold">❄️</span>
+            <span><strong>Collect Streak Freezes</strong> (glowing shields) to save you if you collide with a system error!</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-red-500 font-bold">❌</span>
+            <span><strong>Avoid Red Bugs</strong> (Server Down, Merge Conflicts, NullPointer, Legacy Code) which instantly break your streak!</span>
+          </li>
+        </ul>
+        <ul class="space-y-2">
+          <li class="flex items-start gap-2">
+            <span class="text-blue-500 font-bold">🛡️</span>
+            <span><strong>Streak Freeze Protection:</strong> If you hit an obstacle with a freeze in stock, it's auto-consumed to shield you!</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-amber-500 font-bold">🎹</span>
+            <span><strong>Keyboard Shortcuts:</strong> Spacebar to jump, Shift/F to use shield, R to restart game quickly.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-purple-500 font-bold">🎵</span>
+            <span><strong>Web Audio Synthesizer:</strong> Plays retro-inspired 8-bit arcade noise entirely generated by code!</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-4xl w-full mx-auto mt-8 text-center text-xs text-slate-500 dark:text-slate-500">
+    <p>GitHub Streak Saver | Built dynamically as an Automated Agent Mini-Project.</p>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
